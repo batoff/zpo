@@ -30,5 +30,13 @@ public class Main {
         } catch (ValidationException e) {
             System.out.println(e.getMessage());
         }
+        System.out.println("\n--- Test 4 ---");
+        try {
+            Student student4 = new Student("", "", "", "");
+            Validator.validate(student4);
+            System.out.println("Walidacja zakończona sukcesem (przykład prawidłowy).");
+        } catch (ValidationException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
