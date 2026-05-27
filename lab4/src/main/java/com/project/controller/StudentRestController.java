@@ -34,6 +34,7 @@ public class StudentRestController {
 
     @PostMapping(path = "/studenci")
     public ResponseEntity<Void> createStudent(@Valid @RequestBody Student student) {
+        student.setStudentId(null);
         Student createdStudent = studentService.setStudent(student);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{studentId}").buildAndExpand(createdStudent.getStudentId()).toUri();

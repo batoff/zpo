@@ -34,6 +34,7 @@ public class ProjektRestController {
 
     @PostMapping(path = "/projekty")
     public ResponseEntity<Void> createProjekt(@Valid @RequestBody Projekt projekt) {
+        projekt.setProjektId(null);
         Projekt createdProjekt = projektService.setProjekt(projekt);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{projektId}").buildAndExpand(createdProjekt.getProjektId()).toUri();

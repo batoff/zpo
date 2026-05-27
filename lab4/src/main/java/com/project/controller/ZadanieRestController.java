@@ -34,6 +34,7 @@ public class ZadanieRestController {
 
     @PostMapping(path = "/zadania")
     public ResponseEntity<Void> createZadanie(@Valid @RequestBody Zadanie zadanie) {
+        zadanie.setZadanieId(null);
         Zadanie createdZadanie = zadanieService.setZadanie(zadanie);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{zadanieId}").buildAndExpand(createdZadanie.getZadanieId()).toUri();
