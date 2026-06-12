@@ -38,4 +38,9 @@ public class StudentServiceImpl implements StudentService {
     public Page<Student> getStudenci(Pageable pageable) {
         return studentRepository.findAll(pageable);
     }
+
+    @Override
+    public Page<Student> searchByNazwisko(String nazwisko, Pageable pageable) {
+        return studentRepository.findByNazwiskoStartsWithIgnoreCase(nazwisko, pageable);
+    }
 }

@@ -64,4 +64,10 @@ public class StudentRestController {
     public Page<Student> getStudenci(@ParameterObject Pageable pageable) {
         return studentService.getStudenci(pageable);
     }
+
+    @GetMapping(value = "/studenci", params = "nazwisko")
+    public Page<Student> getStudenciByNazwisko(@RequestParam(name = "nazwisko") String nazwisko,
+                                                @ParameterObject Pageable pageable) {
+        return studentService.searchByNazwisko(nazwisko, pageable);
+    }
 }

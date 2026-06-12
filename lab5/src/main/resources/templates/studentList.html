@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/list-style.css}" rel="stylesheet" />
+    <title>Lista studentów</title>
+</head>
+<body>
+  <div class="root">
+    <h1>Lista studentów</h1>
+    <p>
+        <a th:href="@{/projektList}">Lista projektów</a>
+        <a th:href="@{/zadanieList}">Lista zadań</a>
+    </p>
+    <p>
+        <a th:href="@{/studentEdit}">Dodaj studenta</a>
+    </p>
+
+    <div class="search-block">
+      <form method="get" th:action="@{/studentList}" autocomplete="off">
+        <label for="nazwisko">Szukaj po nazwisku:</label>
+        <input id="nazwisko" name="nazwisko" type="text" th:value="${nazwisko}" placeholder="Nazwisko..." />
+        <input type="hidden" name="size" th:value="${page.size}" />
+        <button type="submit">Szukaj</button>
+        <a th:href="@{/studentList}">Wyczyść</a>
+      </form>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Imię</th>
+          <th>Nazwisko</th>
+          <th>Nr indeksu</th>
+          <th>Email</th>
+          <th>Stacjonarny</th>
+          <th>Edit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="student : ${studenci}">
+          <td th:text="${student.studentId}">Id</td>
+          <td th:text="${student.imie}">Imię</td>
+          <td th:text="${student.nazwisko}">Nazwisko</td>
+          <td th:text="${student.nrIndeksu}">Nr indeksu</td>
+          <td th:text="${student.email}">Email</td>
+          <td th:text="${student.stacjonarny} ? 'Tak' : 'Nie'">Stacjonarny</td>
+          <td>
+            <a th:href="@{/studentEdit(studentId=${student.studentId})}">Edytuj</a><br>
+            <a th:href="@{/studentEdit(studentId=${student.studentId},delete='true')}">Usuń</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="pagination" th:if="${page.totalPages > 1}">
+      <a th:href="@{/studentList(page=0, size=${page.size}, nazwisko=${nazwisko})}"
+         th:classappend="${page.first} ? 'disabled'">&laquo; Pierwsza</a>
+      <a th:href="@{/studentList(page=${page.number - 1}, size=${page.size}, nazwisko=${nazwisko})}"
+         th:classappend="${page.first} ? 'disabled'">&lsaquo; Poprzednia</a>
+
+      <span th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}">
+        <a th:href="@{/studentList(page=${i}, size=${page.size}, nazwisko=${nazwisko})}"
+           th:text="${i + 1}"
+           th:classappend="${i == page.number} ? 'active'">1</a>
+      </span>
+
+      <a th:href="@{/studentList(page=${page.number + 1}, size=${page.size}, nazwisko=${nazwisko})}"
+         th:classappend="${page.last} ? 'disabled'">Następna &rsaquo;</a>
+      <a th:href="@{/studentList(page=${page.totalPages - 1}, size=${page.size}, nazwisko=${nazwisko})}"
+         th:classappend="${page.last} ? 'disabled'">Ostatnia &raquo;</a>
+    </div>
+    <p th:text="|Strona ${page.number + 1} z ${page.totalPages} (łącznie ${page.totalElements} studentów)|"></p>
+  </div>
+</body>
+</html>

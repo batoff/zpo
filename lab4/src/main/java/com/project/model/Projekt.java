@@ -25,7 +25,8 @@ import java.util.Set;
 public class Projekt {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "projekt_seq")
+    @SequenceGenerator(name = "projekt_seq", sequenceName = "projekt_seq", allocationSize = 1, initialValue = 1)
     @Column(name = "projekt_id")
     private Integer projektId;
 
@@ -56,5 +57,6 @@ public class Projekt {
     @JoinTable(name = "projekt_student",
             joinColumns = {@JoinColumn(name = "projekt_id")},
             inverseJoinColumns = {@JoinColumn(name = "student_id")})
+    @JsonIgnoreProperties({"projekty"})
     private Set<Student> studenci;
 }

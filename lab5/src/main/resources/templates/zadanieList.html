@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/list-style.css}" rel="stylesheet" />
+    <title>Lista zadań</title>
+</head>
+<body>
+  <div class="root">
+    <h1>Lista zadań</h1>
+    <p>
+        <a th:href="@{/projektList}">Lista projektów</a>
+        <a th:href="@{/studentList}">Lista Studentów</a>
+    </p>
+    <p>
+        <a th:href="@{/zadanieEdit}">Dodaj zadanie</a>
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Nazwa</th>
+          <th>Kolejność</th>
+          <th>Opis</th>
+          <th>Dodano</th>
+          <th>Projekt</th>
+          <th>Edit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="zadanie : ${zadania}">
+          <td th:text="${zadanie.zadanieId}">Id</td>
+          <td th:text="${zadanie.nazwa}">Nazwa</td>
+          <td th:text="${zadanie.kolejnosc}">Kolejność</td>
+          <td th:text="${zadanie.opis}">Opis</td>
+          <td th:text="${#temporals.format(zadanie.dataczasDodania, 'yyyy-MM-dd HH:mm:ss')}">Dodano</td>
+          <td th:text="${zadanie.projekt != null ? zadanie.projekt.projektId : ''}">Projekt</td>
+          <td>
+            <a th:href="@{/zadanieEdit(zadanieId=${zadanie.zadanieId})}">Edytuj</a><br>
+            <a th:href="@{/zadanieEdit(zadanieId=${zadanie.zadanieId},delete='true')}">Usuń</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

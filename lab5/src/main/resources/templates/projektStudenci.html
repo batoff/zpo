@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/edit-style.css}" rel="stylesheet" />
+    <link th:href="@{/css/list-style.css}" rel="stylesheet" />
+    <title>Studenci projektu</title>
+</head>
+<body>
+  <div class="root">
+    <h1 th:text="'Studenci projektu: ' + ${projekt.nazwa}">Studenci projektu</h1>
+    <p>
+      <a th:href="@{/projektList}">Powrót do listy projektów</a>
+      &nbsp;|&nbsp;
+      <a th:href="@{/projektEdit(projektId=${projekt.projektId})}">Edytuj projekt</a>
+    </p>
+
+    <div class="container">
+      <h2>Przypisani studenci</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+            <th>Nr indeksu</th>
+            <th>Email</th>
+            <th>Akcja</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="student : ${projekt.studenci}">
+            <td th:text="${student.studentId}">Id</td>
+            <td th:text="${student.imie}">Imię</td>
+            <td th:text="${student.nazwisko}">Nazwisko</td>
+            <td th:text="${student.nrIndeksu}">Nr indeksu</td>
+            <td th:text="${student.email}">Email</td>
+            <td>
+              <form method="post" th:action="@{/projektStudenci}">
+                <input type="hidden" name="projektId" th:value="${projekt.projektId}" />
+                <input type="hidden" name="studentId" th:value="${student.studentId}" />
+                <input class="btn" type="submit" name="removeStudent" value="Usuń" />
+              </form>
+            </td>
+          </tr>
+          <tr th:if="${projekt.studenci == null or projekt.studenci.empty}">
+            <td colspan="6">Brak przypisanych studentów.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Dodaj studenta do projektu</h2>
+      <form method="post" th:action="@{/projektStudenci}" autocomplete="off">
+        <input type="hidden" name="projektId" th:value="${projekt.projektId}" />
+        <div>
+          <label for="studentId" class="lbl">Id studenta:</label>
+          <input id="studentId" name="studentId" class="fld" type="number" min="1" required />
+        </div>
+        <div class="btns-panel">
+          <input class="btn" type="submit" name="addStudent" value="Dodaj studenta" />
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

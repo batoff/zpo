@@ -20,7 +20,8 @@ import java.time.LocalDateTime;
 public class Zadanie {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "zadanie_seq")
+    @SequenceGenerator(name = "zadanie_seq", sequenceName = "zadanie_seq", allocationSize = 1, initialValue = 1)
     @Column(name = "zadanie_id")
     private Integer zadanieId;
 
